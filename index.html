@@ -1,0 +1,41 @@
+**/ Credit: https://github.com/Johndevils/Johndevils
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fullscreen MP4 Player</title>
+  <style>
+    /* पेज को फुलस्क्रीन वीडियो प्लेबैक के लिए स्टाइल करना */
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: black;
+    }
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* वीडियो को सही अनुपात में भरने के लिए */
+    }
+  </style>
+</head>
+<body>
+  <!-- वीडियो प्लेयर -->
+  <video id="video-player" controls autoplay></video>
+
+  <script>
+    // URL से query parameter निकालना
+    const urlParams = new URLSearchParams(window.location.search);
+    const videoURL = urlParams.get('url');
+
+    if (videoURL) {
+      document.getElementById('video-player').src = videoURL;
+    } else {
+      // यदि video URL नहीं दिया गया, तो उपयोगकर्ता को संदेश दिखाएं
+      document.body.innerHTML = "<p style='color:white; text-align:center; padding-top:20%;'>कृपया वीडियो URL प्रदान करें।</p>";
+    }
+  </script>
+</body>
+</html>
+**/Made by ARSYNOX 
