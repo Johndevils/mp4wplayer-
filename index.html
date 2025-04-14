@@ -1,101 +1,116 @@
-
 <!DOCTYPE html>
-<html lang="hi">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Fullscreen MP4 Player</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="author" content="ARSYNOX" />
+  <meta name="keywords" content="ARSYNOX, mp4, link, player, Free" />
+  <meta name="description" content="Website Service Full Screen MP4 Player." />
+  <meta property="og:description" content="ARSYNOX Website Service MP4 video player.">
+  <meta content='https://graph.org/file/f3fbe69621b59e0ad4565.jpg' property='og:image' />
+  <link href='https://graph.org/file/f3fbe69621b59e0ad4565.jpg' rel='shortcut icon' type='image/vnd.microsoft.icon' />
+  <link href='https://graph.org/file/f3fbe69621b59e0ad4565.jpg' rel='apple-touch-icon' />
+  <link rel="icon" type="image/x-icon" href="https://graph.org/file/f3fbe69621b59e0ad4565.jpg">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <title>Full Screen MP4 Player</title>
+  <link href="https://vjs.zencdn.net/8.10.0/video-js.min.css" rel="stylesheet">
   <style>
-    * {
+    html, body {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
     }
-
-    body {
+    #player {
+      width: 100vw;
       height: 100vh;
-      background-color: #000;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      font-family: Arial, sans-serif;
+      object-fit: contain;
     }
-
-    video {
+    .video-js {
       width: 100%;
       height: 100%;
-      object-fit: cover;
-    }
-
-    .message-box {
-      background: linear-gradient(135deg, #ff416c, #ff4b2b);
-      color: white;
-      padding: 20px 30px;
-      border-radius: 20px;
-      font-size: 18px;
-      text-align: center;
-      margin: 20px;
-      box-shadow: 0 4px 10px rgba(255, 75, 43, 0.4);
-    }
-
-    footer {
-      margin-top: 20px;
-      background: #111;
-      padding: 10px 20px;
-      border-radius: 12px;
-      color: #00ffd5;
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    footer a {
-      color: #00ffd5;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    footer svg {
-      width: 16px;
-      height: 16px;
-      fill: #00ffd5;
-    }
-
-    #video-container {
-      width: 100%;
-      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
     }
   </style>
 </head>
 <body>
-  <div id="video-container">
-    <video id="video-player" controls autoplay></video>
-  </div>
+  <video-js 
+    id="player"
+    class="video-js vjs-default-skin"
+    controls
+    preload="auto"
+    data-setup='{"fluid": false}'>
+  </video-js>
 
-  <div id="message" class="message-box" style="display:none;">
-    No video URL provided. Add <code>?url=YOUR_MP4_URL</code>
-  </div>
-
-  <footer>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240"><path d="M120,0C53.73,0,0,53.73,0,120s53.73,120,120,120s120-53.73,120-120S186.27,0,120,0z M174.6,84.47l-18.22,85.93 c-1.38,6.19-5.06,7.72-10.26,4.8l-28.34-20.91l-13.67,13.18c-1.51,1.51-2.77,2.77-5.67,2.77l2.03-28.68l52.2-47.07 c2.27-2.03-0.5-3.16-3.52-1.13l-64.53,40.61l-27.82-8.69c-6.05-1.89-6.19-6.05,1.26-8.95l108.87-42.01 C171.7,74.49,176.21,77.12,174.6,84.47z"/></svg>
-    Developed by <a href="https://t.me/codexhelps_bot" target="_blank">ARSYNOX</a>
-  </footer>
-
+  <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
   <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const videoURL = urlParams.get('url');
-    const video = document.getElementById('video-player');
-    const message = document.getElementById('message');
-    const videoContainer = document.getElementById('video-container');
+    // Get URL parameter
+const urlParams = new URLSearchParams(window.location.search);
+const streamUrl = urlParams.get('url');
 
-    if (videoURL) {
-      video.src = videoURL;
-      message.style.display = "none";
-    } else {
-      videoContainer.style.display = "none";
-      message.style.display = "block";
+if (!streamUrl) {
+  document.body.innerHTML = `
+    <div style="
+      background: linear-gradient(135deg, #ff416c, #ff4b2b);
+      color: white;
+      padding: 20px 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      text-align: center;
+      max-width: 60%;
+      margin: 100px auto 20px auto;
+      font-family: Arial, sans-serif;
+      font-size: 1rem;
+      font-weight: bold;
+    ">
+      No video URL provided. Add ?url=YOUR_MP4_URL
+    </div>
+    <div style="
+      background: #222;
+      color: #00ffd5;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-align: center;
+      max-width: 50%;
+      margin: 0 auto;
+      font-family: monospace;
+      font-size: 0.75rem;
+      font-weight: bold;
+    ">
+      Developed by <a href="https://t.me/codexhelps_bot" style="color:#00ffd5;text-decoration:none;" target="_blank"><i class="fa fa-telegram" aria-hidden="true"></i> 𝑨𝑹𝑺𝒀𝑵𝑶𝑿</a>
+    </div>
+  `;
+} else {
+  // Initialize player
+  const player = videojs('player', {
+    fluid: false,
+    responsive: false,
+    aspectRatio: '16:9',
+    playbackRates: [0.5, 1, 1.5, 2],
+    userActions: {
+      doubleClick: false
+    }
+  });
+  
+      // Load MP4 stream through worker
+      const encodedUrl = encodeURIComponent(streamUrl);
+      const workerUrl = `https://quiet-firefly-e8ce.arunvro102.workers.dev/?url=${encodedUrl}`;
+      
+      player.src({
+        src: workerUrl,
+        type: 'video/mp4'  // Changed to video/mp4 as requested
+      });
+
+      // Handle fullscreen properly
+      player.on('fullscreenchange', function() {
+        if (player.isFullscreen()) {
+          player.tech_.el_.style.objectFit = 'contain';
+        }
+      });
     }
   </script>
 </body>
